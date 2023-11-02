@@ -210,4 +210,3 @@ window.onload = () => {
             console.log(error);
         });
 };
-まとめ
