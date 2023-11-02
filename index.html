@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>WebAR制作ページ</title>
+</head>
+<body>
+<script src="main.js"></script>
+<link href="style.css" rel="stylesheet">
+<div id="device-orien-modal" class="device-orien-modal is-hidden">
+	<div class="device-orien-modal-inner">
+		<p>
+			このページでは端末の向きと方向を取得します。<br />
+			次に表示されるポップアップに従って「許可」を選択してください。
+		</p>
+		<button
+				id="device-orien-modal-button"
+				class="device-orien-modal-button"
+		>
+			OK
+		</button>
+	</div>
+</div>
+<canvas id="canvas" class="canvas"></canvas>
+<video src="" id="camera" class="camera" playsinline></video>
+</body>
+</html>
