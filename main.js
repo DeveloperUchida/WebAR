@@ -1,5 +1,5 @@
-import * as THREE from "three";
-import { DeviceOrientationControls } from "three/examples/jsm/controls/DeviceOrientationControls";
+import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
+import { DeviceOrientationControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/DeviceOrientationControls.js';
 let w;
 let h;
 let canvas;
@@ -8,18 +8,14 @@ let camera;
 let renderer;
 let object;
 let controls;
-
 let deviceOrienModal = null;
 let deviceOrienModalButton = null;
-
 let video = null;
 let videoInput = null;
 let videoStream = null;
-
 const initVideo = () => {
     video = document.getElementById("camera");
     video.addEventListener("loadedmetadata", adjustVideo);
-
     navigator.mediaDevices
         .enumerateDevices()
         .then((devices) => {
@@ -30,7 +26,6 @@ const initVideo = () => {
             console.log(error);
         });
 };
-
 const setVideo = () => {
     return {
         audio: false,
@@ -42,7 +37,6 @@ const setVideo = () => {
         },
     };
 };
-
 const getVideo = () => {
     if (videoStream) {
         videoStream.getTracks().forEach((track) => track.stop());
@@ -61,31 +55,27 @@ const getVideo = () => {
             );
         });
 };
-
 const adjustVideo = () => {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
     const videoWidth = video.videoWidth;
     const videoHeight = video.videoHeight;
-
-    let videoAspect: number = videoWidth / videoHeight;
-    let windowAspect: number = windowWidth / windowHeight;
-
+    let videoAspect = videoWidth / videoHeight;
+    let windowAspect= windowWidth / windowHeight;
     if (windowAspect < videoAspect) {
-        let newWidth: number = videoAspect * windowHeight;
+        let newWidth = videoAspect * windowHeight;
         video.style.width = newWidth + "px";
         video.style.marginLeft = -(newWidth - windowWidth) / 2 + "px";
         video.style.height = windowHeight + "px";
         video.style.marginTop = "0px";
     } else {
-        let newHeight: number = 1 / (videoAspect / windowWidth);
+        let newHeight = 1 / (videoAspect / windowWidth);
         video.style.height = newHeight + "px";
         video.style.marginTop = -(newHeight - windowHeight) / 2 + "px";
         video.style.width = windowWidth + "px";
         video.style.marginLeft = "0px";
     }
 };
-
 const isIos = () => {
     const ua = navigator.userAgent.toLowerCase();
     return (
@@ -94,18 +84,15 @@ const isIos = () => {
         ua.indexOf("ipod") >= 0
     );
 };
-
 const checkDeviceOrien = () => {
     return new Promise((resolve, reject) => {
         if (!isIos()) resolve("resolve");
-
         const deviceOrienEvent = () => {
             hideDeviceOrienModal();
             window.removeEventListener("deviceorientation", deviceOrienEvent, false);
             resolve("resolve");
         };
         window.addEventListener("deviceorientation", deviceOrienEvent, false);
-
         deviceOrienModal = document.getElementById("device-orien-modal");
         deviceOrienModalButton = document.getElementById(
             "device-orien-modal-button"
@@ -113,21 +100,20 @@ const checkDeviceOrien = () => {
         const alertMessage =
             "モーションセンサーの使用が拒否されました。\nこのページを楽しむには、デバイスモーションセンサーの使用を許可する必要があります。\nSafariのアプリを再起動して、モーションセンサーの使用（「動作と方向」へのアクセス）を許可をしてください。";
         deviceOrienModal.classList.remove("is-hidden");
-
         deviceOrienModalButton.addEventListener("click", () => {
             if (
                 DeviceMotionEvent &&
-                (DeviceMotionEvent as any).requestPermission &&
-            typeof (DeviceMotionEvent as any).requestPermission === "function"
-        ) {
-                (DeviceMotionEvent as any).requestPermission().then((res: any) => {});
+                (DeviceMotionEvent).requestPermission &&
+                typeof (DeviceMotionEvent).requestPermission === "function"
+            ) {
+                (DeviceMotionEvent).requestPermission().then((res) => {});
             }
             if (
                 DeviceOrientationEvent &&
-                (DeviceOrientationEvent as any).requestPermission &&
-            typeof (DeviceOrientationEvent as any).requestPermission === "function"
-        ) {
-                (DeviceOrientationEvent as any).requestPermission().then((res: any) => {
+                (DeviceOrientationEvent).requestPermission &&
+                typeof (DeviceOrientationEvent).requestPermission === "function"
+            ) {
+                (DeviceOrientationEvent).requestPermission().then((res) => {
                     console.log(res);
                     if (res === "granted") {
                         hideDeviceOrienModal();
@@ -144,11 +130,9 @@ const checkDeviceOrien = () => {
         });
     });
 };
-
 const hideDeviceOrienModal = () => {
     deviceOrienModal.classList.add("is-hidden");
 };
-
 const initThree = () => {
     w = window.innerWidth;
     h = window.innerHeight;
@@ -159,18 +143,15 @@ const initThree = () => {
     setRenderer();
     controls = new DeviceOrientationControls(camera, true);
 };
-
 const setScene = () => {
     scene = new THREE.Scene();
 };
-
 const setCamera = () => {
     camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 30);
     camera.position.set(0, 0, 5);
     camera.lookAt(0, 0, 0);
     scene.add(camera);
 };
-
 const setObject = () => {
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshNormalMaterial();
@@ -178,7 +159,6 @@ const setObject = () => {
     object.position.set(0, 0, 0);
     scene.add(object);
 };
-
 const setRenderer = () => {
     renderer = new THREE.WebGLRenderer({
         antialias: true,
@@ -192,14 +172,12 @@ const setRenderer = () => {
         render();
     });
 };
-
 const render = () => {
     object.rotation.x += 0.01;
     object.rotation.y += 0.01;
     controls.update();
     renderer.render(scene, camera);
 };
-
 window.onload = () => {
     checkDeviceOrien()
         .then(() => {
