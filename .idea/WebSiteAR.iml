@@ -8,5 +8,9 @@
     <orderEntry type="library" name="aframe-look-at-component" level="application" />
     <orderEntry type="library" name="aframe-ar-nft" level="application" />
     <orderEntry type="library" name="aframe" level="application" />
+    <orderEntry type="library" name="aframe-ar" level="application" />
+    <orderEntry type="library" name="aframe-extras.loaders" level="application" />
+    <orderEntry type="library" name="gesture-handler" level="application" />
+    <orderEntry type="library" name="gesture-detector" level="application" />
   </component>
 </module>
